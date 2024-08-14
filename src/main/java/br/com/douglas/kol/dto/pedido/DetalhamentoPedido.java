@@ -18,6 +18,7 @@ public record DetalhamentoPedido(
         List<Pizza> pizza,
         StatusDoPedido status,
         BigDecimal precoTotal) {
+
     public DetalhamentoPedido(Pedido p) {
         this(p.getId(),
                 p.getBebidas(),
