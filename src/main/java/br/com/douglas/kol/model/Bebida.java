@@ -2,7 +2,7 @@ package br.com.douglas.kol.model;
 
 import br.com.douglas.kol.dto.bebida.DadosAtualizacaoBebida;
 import br.com.douglas.kol.dto.bebida.DadosCadastroBebida;
-import br.com.douglas.kol.pedido.Pedido;
+import br.com.douglas.kol.model.pedido.Pedido;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

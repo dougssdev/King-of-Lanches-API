@@ -2,8 +2,8 @@ package br.com.douglas.kol.dto.pedido;
 
 import br.com.douglas.kol.model.Bebida;
 import br.com.douglas.kol.model.Hamburguer;
-import br.com.douglas.kol.pedido.Pedido;
-import br.com.douglas.kol.pedido.StatusDoPedido;
+import br.com.douglas.kol.model.pedido.Pedido;
+import br.com.douglas.kol.model.pedido.StatusDoPedido;
 import br.com.douglas.kol.model.Pizza;
 
 import java.math.BigDecimal;

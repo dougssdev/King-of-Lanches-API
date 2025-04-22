@@ -3,7 +3,7 @@ package br.com.douglas.kol.controller;
 import br.com.douglas.kol.dto.pedido.DadosCancelamento;
 import br.com.douglas.kol.dto.pedido.DadosEnvio;
 import br.com.douglas.kol.dto.pedido.DetalhamentoPedido;
-import br.com.douglas.kol.pedido.Pedido;
+import br.com.douglas.kol.model.pedido.Pedido;
 import br.com.douglas.kol.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

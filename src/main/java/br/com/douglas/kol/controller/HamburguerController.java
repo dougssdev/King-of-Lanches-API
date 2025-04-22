@@ -27,6 +27,7 @@ public class HamburguerController {
     @Transactional
     public ResponseEntity adicionar(@RequestBody @Valid DadosCadastroHamburguer dados,
                                     UriComponentsBuilder uriBuilder){
+
         DadosDetalhamentoHamburguer hamburguer = service.salvar(dados);
 
         var uri = uriBuilder.path("/hamburguer/{id}").buildAndExpand(hamburguer.idHamburguer()).toUri();

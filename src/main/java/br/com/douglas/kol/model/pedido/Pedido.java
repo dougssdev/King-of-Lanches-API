@@ -1,4 +1,4 @@
-package br.com.douglas.kol.pedido;
+package br.com.douglas.kol.model.pedido;
 
 import br.com.douglas.kol.model.Bebida;
 import br.com.douglas.kol.model.Hamburguer;

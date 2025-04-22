@@ -1,4 +1,4 @@
-package br.com.douglas.kol.pedido;
+package br.com.douglas.kol.model.pedido;
 
 import org.springframework.stereotype.Service;
 
