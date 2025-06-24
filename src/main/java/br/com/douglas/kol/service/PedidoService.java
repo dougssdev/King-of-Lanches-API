@@ -39,9 +39,9 @@ public class PedidoService {
     @Transactional
     public DetalhamentoPedido criarNovoPedido(List<Long> idsBebida, List<Long> idsHamburguer, List<Long> idsPizza) {
 
-        var bebidas = br.findBebidaIn(idsBebida);
-        var hamburgueres = hr.findHamburguerIn(idsHamburguer);
-        var pizzas = pzr.findPizzaIn(idsPizza);
+        List<Bebida> bebidas = br.findBebidaIn(idsBebida);
+        List<Hamburguer> hamburgueres = hr.findHamburguerIn(idsHamburguer);
+        List<Pizza> pizzas = pzr.findPizzaIn(idsPizza);
 
         var precoTotal = precoTotal(bebidas, hamburgueres, pizzas);
 
