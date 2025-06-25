@@ -4,9 +4,9 @@
 ![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
 [![Licence](https://img.shields.io/github/license/Ileriayo/markdown-badges?style=for-the-badge)](./LICENSE)
 
-This project is an API built using **Java, Java Spring, MySQL and H2 database**.
+This project is an API built using **Java, Java Spring, MySQL, and the H2 database**.
 
-The API was developed to study and improve my knowledge in Java and it's technologies. This project simulates a cafeteria system, where you can order pizzas, hamburguers and drinks. As you can see, it keeps receiving updates and improvements. 
+The API was developed to study and improve my knowledge in Java and its technologies. This project simulates a cafeteria system, where you can order pizzas, hamburgers and drinks. As you can see, it keeps receiving updates and improvements. 
 
 ## Contents
 
