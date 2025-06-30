@@ -24,7 +24,7 @@ public class PedidoController {
         return "home";
     }
     @PostMapping("/enviaPedido")
-    public ResponseEntity<String> enviaPedido(@RequestBody DadosEnvio dadosEnvio) {
+    public ResponseEntity<String> enviaPedido(@RequestBody DadosEnvio dadosEnvio) throws RuntimeException {
         DetalhamentoPedido novoPedido = service.criarNovoPedido(dadosEnvio.idsBebida(), dadosEnvio.idsHamburguer(),
                 dadosEnvio.idsPizza());
 

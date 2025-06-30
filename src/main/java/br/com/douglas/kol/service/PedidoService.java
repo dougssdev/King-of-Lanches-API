@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PedidoService {
@@ -37,11 +38,15 @@ public class PedidoService {
     private PedidoRegraNegocio prn;
 
     @Transactional
-    public DetalhamentoPedido criarNovoPedido(List<Long> idsBebida, List<Long> idsHamburguer, List<Long> idsPizza) {
+    public DetalhamentoPedido criarNovoPedido(List<Long> idsBebida, List<Long> idsHamburguer, List<Long> idsPizza) throws RuntimeException {
 
         List<Bebida> bebidas = br.findBebidaIn(idsBebida);
         List<Hamburguer> hamburgueres = hr.findHamburguerIn(idsHamburguer);
         List<Pizza> pizzas = pzr.findPizzaIn(idsPizza);
+
+        if (bebidas.isEmpty() && hamburgueres.isEmpty() && pizzas.isEmpty()) {
+            throw new RuntimeException("Pedido vazio.");
+        }
 
         var precoTotal = precoTotal(bebidas, hamburgueres, pizzas);
 
@@ -63,7 +68,7 @@ public class PedidoService {
     }
 
     public void cancelaPedido(Long id) {
-        var byId = pr.findById(id);
+        Optional<Pedido> byId = pr.findById(id);
         if(byId.isEmpty()){
             throw new RuntimeException("Pedido não existente.");
         }

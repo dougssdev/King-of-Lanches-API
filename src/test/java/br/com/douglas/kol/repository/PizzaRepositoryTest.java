@@ -2,6 +2,7 @@ package br.com.douglas.kol.repository;
 
 import br.com.douglas.kol.dto.pizza.DadosCadastroPizza;
 import br.com.douglas.kol.model.Pizza;
+import br.com.douglas.kol.model.pedido.Pedido;
 import jakarta.persistence.EntityManager;
 import lombok.Data;
 import org.assertj.core.api.Assertions;
@@ -12,6 +13,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -28,13 +31,13 @@ class PizzaRepositoryTest {
 
     //Deve retornar uma pizza com o ID 1
     @Test
-    @DisplayName("Should return a Pizza with id number 1")
+    @DisplayName("Should return a Pizza through the id")
     void findPizzaCase1() {
-        Long id = 1l;
-        DadosCadastroPizza cadastroPizza =
-                new DadosCadastroPizza("Calabresa", new BigDecimal(45.00));
-        this.createPizza(cadastroPizza);
-        Optional<Pizza> result = repository.findById(id);
+        long id = 1L;
+        List<Pedido> pedidos = new ArrayList<>();
+        Pizza pizza = new Pizza(id, "Calabresa", new BigDecimal(45.00), pedidos);
+
+        Optional<Pizza> result = repository.findById(pizza.getId_pizza());
 
         Assertions.assertThat(result.isPresent()).isTrue();
     }
@@ -48,6 +51,22 @@ class PizzaRepositoryTest {
         Optional<Pizza> result = repository.findById(id);
 
         Assertions.assertThat(result.isEmpty()).isTrue();
+    }
+
+    @Test
+    @DisplayName("Return a pizza object")
+    void findPizzaInCase1() {
+        Long id = 1l;
+        List<Long> ids = new ArrayList<>();
+
+        ids.add(id);
+
+        DadosCadastroPizza data = new DadosCadastroPizza("Presunto", new BigDecimal(45));
+        this.createPizza(data);
+
+        List<Pizza> pizzaList = repository.findPizzaIn(ids);
+
+        Assertions.assertThat(pizzaList.isEmpty()).isFalse();
     }
 
     //Metodo para criar a pizza
