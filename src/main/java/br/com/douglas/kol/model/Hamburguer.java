@@ -3,6 +3,7 @@ package br.com.douglas.kol.model;
 import br.com.douglas.kol.dto.hamburguer.DadosAtualizacaoHamburguer;
 import br.com.douglas.kol.dto.hamburguer.DadosCadastroHamburguer;
 import br.com.douglas.kol.model.pedido.Pedido;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,6 +29,7 @@ public class Hamburguer {
     private BigDecimal preco;
 
     @ManyToMany(mappedBy = "hamburguers")
+    @JsonIgnore
     private List<Pedido> pedidos;
 
     @Override

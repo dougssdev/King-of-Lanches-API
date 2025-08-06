@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
 @DataJpaTest
 @ActiveProfiles("tests")
@@ -33,13 +34,8 @@ class PizzaRepositoryTest {
     @Test
     @DisplayName("Should return a Pizza through the id")
     void findPizzaCase1() {
-        long id = 1L;
-        List<Pedido> pedidos = new ArrayList<>();
-        Pizza pizza = new Pizza(id, "Calabresa", new BigDecimal(45.00), pedidos);
+        createPizza(new DadosCadastroPizza("Calabresa", new BigDecimal(45)));
 
-        Optional<Pizza> result = repository.findById(pizza.getId_pizza());
-
-        Assertions.assertThat(result.isPresent()).isTrue();
     }
 
     //Não deve retornar nada

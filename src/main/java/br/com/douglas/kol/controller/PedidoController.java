@@ -23,23 +23,16 @@ public class PedidoController {
         model.addAttribute("pedido", new Pedido());
         return "home";
     }
+
     @PostMapping("/enviaPedido")
-    public ResponseEntity<String> enviaPedido(@RequestBody DadosEnvio dadosEnvio) throws RuntimeException {
+    public ResponseEntity<DetalhamentoPedido> enviaPedido(@RequestBody DadosEnvio dadosEnvio) throws RuntimeException {
         DetalhamentoPedido novoPedido = service.criarNovoPedido(dadosEnvio.idsBebida(), dadosEnvio.idsHamburguer(),
                 dadosEnvio.idsPizza());
 
         if (novoPedido != null) {
-            ResponseEntity<String> ok = ResponseEntity.ok().body("Pedido enviado com sucesso." + "\n"
-                    + "Número do pedido: " + novoPedido.id_pedido() + "\n"
-                    + novoPedido.bebida() + "\n"
-                    + novoPedido.hamburguer() + "\n"
-                    + novoPedido.pizza() + "\n"
-                    + "Total: " + novoPedido.precoTotal() + "\n");
-            return ok;
-        } else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao criar pedido.");
+            return ResponseEntity.ok(novoPedido);
         }
-
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(novoPedido);
     }
 
     @PostMapping("/cancelaPedido")

@@ -3,6 +3,7 @@ package br.com.douglas.kol.model;
 import br.com.douglas.kol.dto.pizza.DadosAtualizacaoPizza;
 import br.com.douglas.kol.dto.pizza.DadosCadastroPizza;
 import br.com.douglas.kol.model.pedido.Pedido;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,6 +28,7 @@ public class Pizza {
     private BigDecimal preco;
 
     @ManyToMany(mappedBy = "pizzas")
+    @JsonIgnore
     private List<Pedido> pedidos;
 
     @Override
