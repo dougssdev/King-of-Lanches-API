@@ -65,6 +65,17 @@ class PizzaRepositoryTest {
         Assertions.assertThat(pizzaList.isEmpty()).isFalse();
     }
 
+    @Test
+    @DisplayName("Display name")
+    void testPizzaIdList_When_FindPizzaIn_ShouldReturnNull() {
+        //Given
+
+
+        //When
+
+        //Then
+    }
+
     //Metodo para criar a pizza
     private Pizza createPizza(DadosCadastroPizza data) {
         Pizza newPizza = new Pizza(data);

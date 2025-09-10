@@ -32,6 +32,7 @@ public class PedidoController {
         if (novoPedido != null) {
             return ResponseEntity.ok(novoPedido);
         }
+
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(novoPedido);
     }
 
