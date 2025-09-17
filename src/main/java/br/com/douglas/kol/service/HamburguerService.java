@@ -11,6 +11,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+
+import static br.com.douglas.kol.service.Check.checker;
+
 @Service
 public class HamburguerService {
 
@@ -19,6 +23,9 @@ public class HamburguerService {
 
     public DadosDetalhamentoHamburguer salvar (DadosCadastroHamburguer dados){
         Hamburguer hamburguer = new Hamburguer(dados);
+
+        checker(dados.nome(), dados.preco());
+
         repository.save(hamburguer);
         return new DadosDetalhamentoHamburguer(hamburguer);
     }
