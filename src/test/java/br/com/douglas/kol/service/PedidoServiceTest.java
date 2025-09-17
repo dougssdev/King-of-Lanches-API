@@ -6,6 +6,7 @@ import br.com.douglas.kol.model.Hamburguer;
 import br.com.douglas.kol.model.Pizza;
 import br.com.douglas.kol.model.pedido.Pedido;
 import br.com.douglas.kol.model.pedido.PedidoRegraNegocio;
+import br.com.douglas.kol.model.pedido.StatusDoPedido;
 import br.com.douglas.kol.repository.BebidaRepository;
 import br.com.douglas.kol.repository.HamburguerRepository;
 import br.com.douglas.kol.repository.PedidoRepository;
@@ -15,6 +16,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
@@ -139,5 +141,44 @@ class PedidoServiceTest {
         assertEquals(0, novoPedido.precoTotal().compareTo(new BigDecimal(128)));
     }
 
+    @Test
+    @DisplayName("Given PedidoId When CancelaPedido Should Update PedidoStatus To 'Cancelado'")
+    void testGivenPedidoId_WhenCancelaPedido_ShouldUpdatePedidoStatusToCancelado() {
+        //Given
+
+        pedido = new Pedido();
+        pedido.setId(1l);
+        pedido.setStatus(StatusDoPedido.Enviado);
+        given(pedidoRepository.findById(1l)).willReturn(Optional.of(pedido));
+
+
+        //When
+
+        pedidoService.cancelaPedido(1l);
+
+        //Then
+
+        ArgumentCaptor<Pedido> captor = ArgumentCaptor.forClass(Pedido.class);
+        verify(pedidoRepository).save(captor.capture());
+
+        Pedido captorValue = captor.getValue();
+
+        assertEquals(StatusDoPedido.Cancelado, captorValue.getStatus());
+    }
+
+    @Test
+    @DisplayName("Given Non Existent PedidoId When Cancela Pedido Should Throw an RuntimeException")
+    void testGivenNonExistentPedidoId_When_CancelaPedido_ShouldThrowAnRuntimeException() {
+        //Given
+        given(pedidoRepository.findById(1l)).willReturn(Optional.empty());
+
+        //When & Then
+
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            pedidoService.cancelaPedido(1l);
+        });
+
+        assertEquals("Pedido não existente.", exception.getMessage());
+    }
 
 }
