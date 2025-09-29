@@ -153,7 +153,6 @@ class PedidoServiceTest {
 
 
         //When
-
         pedidoService.cancelaPedido(1l);
 
         //Then
@@ -180,5 +179,6 @@ class PedidoServiceTest {
 
         assertEquals("Pedido não existente.", exception.getMessage());
     }
+
 
 }

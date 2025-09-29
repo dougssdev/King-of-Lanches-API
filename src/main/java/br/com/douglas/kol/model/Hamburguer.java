@@ -32,6 +32,11 @@ public class Hamburguer {
     @JsonIgnore
     private List<Pedido> pedidos;
 
+    public Hamburguer(String s, BigDecimal bigDecimal) {
+        this.nome = s;
+        this.preco = bigDecimal;
+    }
+
     @Override
     public String toString() {
         return "Hamburguer: " + nome + "\n"
