@@ -40,8 +40,12 @@ public class HamburguerService {
     }
 
     public DadosDetalhamentoHamburguer atualizar(DadosAtualizacaoHamburguer dados) {
-        var hamburguer = repository.getReferenceById(dados.id());
-        hamburguer.atualizaInformacoes(dados);
+        Hamburguer hamburguer = repository.getReferenceById(dados.id());
+        checker(dados.nome(), dados.preco());
+
+        hamburguer.setNome(dados.nome());
+        hamburguer.setPreco(dados.preco());
+
         return new DadosDetalhamentoHamburguer(hamburguer);
     }
 

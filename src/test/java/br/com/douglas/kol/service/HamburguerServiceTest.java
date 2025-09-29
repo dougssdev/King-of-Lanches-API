@@ -1,5 +1,6 @@
 package br.com.douglas.kol.service;
 
+import br.com.douglas.kol.dto.hamburguer.DadosAtualizacaoHamburguer;
 import br.com.douglas.kol.dto.hamburguer.DadosCadastroHamburguer;
 import br.com.douglas.kol.dto.hamburguer.DadosDetalhamentoHamburguer;
 import br.com.douglas.kol.dto.hamburguer.DadosListagemHamburguer;
@@ -21,6 +22,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -135,4 +137,67 @@ class HamburguerServiceTest {
     }
 
 
+    @Test
+    @DisplayName("Given HamburguerDTO when UpdateHamburguer should Return UpdatedHamburguer")
+    void testGiven_HamburguerDTO_when_UpdateHamburguer_should_Return_UpdatedHamburguer() {
+
+        //Given
+        Hamburguer hamburguer0 = new Hamburguer("X-Bacon", new BigDecimal(40));
+
+        given(repository.getReferenceById(1L)).willReturn(hamburguer0);
+
+        DadosAtualizacaoHamburguer dtoBurguer =
+                new DadosAtualizacaoHamburguer(1L, "Ômega", new BigDecimal(45));
+        //When
+
+        DadosDetalhamentoHamburguer updated = hamburguerService.atualizar(dtoBurguer);
+
+        //Then
+
+        assertEquals(dtoBurguer.nome(), updated.nome());
+        assertEquals(dtoBurguer.preco(), updated.preco());
+        assertNotNull(updated);
+        assertThat(updated.nome()).doesNotContain("X");
+    }
+
+    @Test
+    @DisplayName("Given EmptyValues when UpdateHamburguer should Throw RuntimeException")
+    void testGivenEmptyValues_whenUpdateHamburguer_ShouldThrowRuntimeException() {
+
+        //Given
+        Hamburguer hamburguer0 = new Hamburguer("X-Bacon", new BigDecimal(40));
+
+        given(repository.getReferenceById(1L)).willReturn(hamburguer0);
+
+        DadosAtualizacaoHamburguer dtoBurguer =
+                new DadosAtualizacaoHamburguer(1L, "", new BigDecimal(0));
+        //When
+
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> hamburguerService.atualizar(dtoBurguer));
+
+        //Then
+
+        assertThat(exception.getMessage()).contains("Name");
+        assertEquals("Name cannot be blank", exception.getMessage());
+        assertNotNull(exception);
+
+    }
+
+    @Test
+    @DisplayName("Given HamburguerId delete Hamburgue Object")
+    void testGiven_HamburguerId_delete_Hamburguer_Object() {
+
+        //Given
+        Hamburguer hamburguer0 = new Hamburguer("X-Bacon", new BigDecimal(40));
+
+        hamburguer0.setId_hamburguer(1L);
+        willDoNothing().given(repository).deleteById(hamburguer0.getId_hamburguer());
+        //When
+
+        hamburguerService.excluir(hamburguer0.getId_hamburguer());
+
+        //Then
+
+        verify(repository, times(1)).deleteById(hamburguer0.getId_hamburguer());
+    }
 }

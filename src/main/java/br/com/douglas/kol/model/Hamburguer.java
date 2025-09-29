@@ -49,13 +49,4 @@ public class Hamburguer {
         this.preco = dados.preco();
     }
 
-    public void atualizaInformacoes(DadosAtualizacaoHamburguer dados) {
-       if(dados.nome() != null){
-           this.nome = dados.nome();
-       }
-
-        if(dados.preco() != null){
-            this.preco = dados.preco();
-        }
-    }
 }
