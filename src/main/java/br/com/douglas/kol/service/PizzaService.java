@@ -11,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import static br.com.douglas.kol.service.Check.checker;
+
 @Service
 public class PizzaService {
 
@@ -20,18 +22,24 @@ public class PizzaService {
 
     public DadosDetalhamentoPizza salvar(DadosCadastroPizza dados) {
         Pizza pizza = new Pizza(dados);
+        checker(dados.nome(), dados.preco());
         repository.save(pizza);
         return new DadosDetalhamentoPizza(pizza);
     }
 
     public Page<DadosListagemPizza> listar(Pageable paginacao) {
       var page = repository.findAllPizza(paginacao).map(DadosListagemPizza :: new);
+        if (page.isEmpty()) {
+            throw new RuntimeException("There is no pizza.");
+        }
        return page;
     }
 
     public DadosDetalhamentoPizza atualiza(DadosAtualizacaoPizza dados) {
         var pizza = repository.getReferenceById(dados.id());
-        pizza.atualizaInformacoes(dados);
+        checker(dados.nome(), dados.preco());
+        pizza.setNome(dados.nome());
+        pizza.setPreco(dados.preco());
         return new DadosDetalhamentoPizza(pizza);
     }
 

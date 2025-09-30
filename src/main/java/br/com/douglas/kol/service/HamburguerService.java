@@ -34,7 +34,7 @@ public class HamburguerService {
         var page = repository.findAllHamburguer(paginacao)
                 .map(DadosListagemHamburguer :: new);
         if (page.isEmpty()) {
-            throw new RuntimeException("Não há hamburguer disponível.");
+            throw new RuntimeException("There is no hamburguer");
         }
         return page;
     }

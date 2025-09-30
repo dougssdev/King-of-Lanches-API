@@ -59,15 +59,15 @@ class HamburguerServiceTest {
     }
 
     @Test
-    @DisplayName("Given DTOCadastroHamburguer Blank Name When Salvar Should Throw RunTimeException")
-    void testGivenDTOCadastroHamburguerBlankName_When_Salvar_ShouldThrowRunTimeException() {
+    @DisplayName("Given DTOCadastroHamburguer Blank Name When Salvar Should Throw IllegalArgumentException")
+    void testGivenDTOCadastroHamburguerBlankName_When_Salvar_ShouldThrowIllegalArgumentException() {
 
         //Given
         hamburguer = new DadosCadastroHamburguer(" ", new BigDecimal(0));
 
         //When & Then
 
-        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             hamburguerService.salvar(hamburguer);
         });
 
@@ -76,15 +76,15 @@ class HamburguerServiceTest {
     }
 
     @Test
-    @DisplayName("Given DTOCadastroHamburguer with Price being zero When Salvar Should Throw RunTimeException")
-    void testGivenDTOCadastroHamburguerWithPriceBeingZero_When_Salvar_ShouldThrowRunTimeException() {
+    @DisplayName("Given DTOCadastroHamburguer with Price being zero When Salvar Should Throw IllegalArgumentException")
+    void testGivenDTOCadastroHamburguerWithPriceBeingZero_When_Salvar_ShouldThrowIllegalArgumentException() {
 
         //Given
         hamburguer = new DadosCadastroHamburguer("X-tudo", new BigDecimal(0));
 
         //When & Then
 
-        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             hamburguerService.salvar(hamburguer);
         });
 
@@ -133,7 +133,7 @@ class HamburguerServiceTest {
 
         //Then
 
-        assertEquals("Não há hamburguer disponível.", exception.getMessage());
+        assertEquals("There is no hamburguer", exception.getMessage());
     }
 
 
@@ -161,8 +161,8 @@ class HamburguerServiceTest {
     }
 
     @Test
-    @DisplayName("Given EmptyValues when UpdateHamburguer should Throw RuntimeException")
-    void testGivenEmptyValues_whenUpdateHamburguer_ShouldThrowRuntimeException() {
+    @DisplayName("Given EmptyValues when UpdateHamburguer should Throw IllegalArgumentException")
+    void testGivenEmptyValues_whenUpdateHamburguer_ShouldThrowIllegalArgumentException() {
 
         //Given
         Hamburguer hamburguer0 = new Hamburguer("X-Bacon", new BigDecimal(40));
@@ -173,7 +173,7 @@ class HamburguerServiceTest {
                 new DadosAtualizacaoHamburguer(1L, "", new BigDecimal(0));
         //When
 
-        RuntimeException exception = assertThrows(RuntimeException.class, () -> hamburguerService.atualizar(dtoBurguer));
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> hamburguerService.atualizar(dtoBurguer));
 
         //Then
 

@@ -31,6 +31,11 @@ public class Pizza {
     @JsonIgnore
     private List<Pedido> pedidos;
 
+    public Pizza(String nome, BigDecimal preco) {
+        this.nome = nome;
+        this.preco = preco;
+    }
+
     @Override
     public String toString() {
         return "Pizza: " + nome + "\n"
@@ -44,14 +49,4 @@ public class Pizza {
         this.preco = dados.preco();
     }
 
-    public void atualizaInformacoes(DadosAtualizacaoPizza dados) {
-
-        if(dados.nome() != null){
-            this.nome = dados.nome();
-        }
-
-        if(dados.preco() != null){
-            this.preco = dados.preco();
-        }
-    }
 }
