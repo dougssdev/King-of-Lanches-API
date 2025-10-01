@@ -12,4 +12,19 @@ public class Check {
             throw new IllegalArgumentException("Price cannot be zero");
         }
     }
+
+
+    public static void checker(String string, BigDecimal bigDecimal, Integer quantidade) throws IllegalArgumentException {
+        if (string.isBlank()) {
+            throw new IllegalArgumentException("Name cannot be blank");
+        }
+        if (bigDecimal.equals(new BigDecimal(0))) {
+            throw new IllegalArgumentException("Price cannot be zero");
+        }
+        if (quantidade <= 0) {
+            throw new IllegalArgumentException("Quantity cannot be zero");
+        }
+    }
+
+
 }

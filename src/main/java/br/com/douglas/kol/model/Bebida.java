@@ -22,7 +22,7 @@ import java.util.List;
 public class Bebida {
 
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id_bebida;
     private String nome;
     private BigDecimal preco;
@@ -31,6 +31,12 @@ public class Bebida {
     @ManyToMany(mappedBy = "bebidas")
     @JsonIgnore
     private List<Pedido> pedidos;
+
+    public Bebida(String nome, BigDecimal preco, int quantidade) {
+        this.nome = nome;
+        this.preco = preco;
+        this.quantidade = quantidade;
+    }
 
     @Override
     public String toString() {
@@ -45,22 +51,8 @@ public class Bebida {
         this.quantidade = dados.quantidade();
     }
 
+
     public Bebida(Long id) {
-    }
-
-    public void atualizaInformacoes(DadosAtualizacaoBebida dados) {
-
-        if(dados.nome() != null){
-            this.nome = dados.nome();
-        }
-
-        if(dados.preco() != null){
-            this.preco = dados.preco();
-        }
-
-        if (dados.quantidade() >= 0){
-            this.quantidade = dados.quantidade();
-        }
     }
 
 }
