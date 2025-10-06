@@ -95,6 +95,91 @@ class PedidoServiceTest {
     }
 
     @Test
+    @DisplayName("Given PizzaList and HamburguerList When Criar Pedido Then Return Saved Pedido With Preco Total")
+    void testGiven_PizzaListAndHamburguerList_When_CriarNovoPedido_Then_ReturnSavedPedidoWithPrecoTotal() {
+        //Given
+        when(pizzaRepository.findPizzaIn(idsPizza)).thenReturn(List.of(pizza));
+        when(hamburguerRepository.findHamburguerIn(idsHamburguer)).thenReturn(List.of(hamburguer));
+        when(bebidaRepository.findBebidaIn(idsBebida)).thenReturn(List.of());
+
+        //When
+
+        DetalhamentoPedido novoPedido = pedidoService.criarNovoPedido(idsBebida, idsHamburguer, idsPizza);
+
+        //Then
+
+        assertThat(novoPedido.bebida()).isEmpty();
+        assertThat(novoPedido.precoTotal()).isEqualTo(new BigDecimal(90));
+        assertNotNull(novoPedido);
+        assertThat(novoPedido.status()).isEqualTo(StatusDoPedido.Enviado);
+    }
+
+    @Test
+    @DisplayName("Given Bebida List and Hamburguer List When Criar Then Return Saved Pedido With Preco Total")
+    void testGiven_BebidaListAndHamburguerList_When_CriarNovoPedido_Then_ReturnSavedPedidoWithPrecoTotal() {
+        //Given
+        when(bebidaRepository.findBebidaIn(idsBebida)).thenReturn(List.of(bebida));
+        when(hamburguerRepository.findHamburguerIn(idsHamburguer)).thenReturn(List.of(hamburguer));
+        when(pizzaRepository.findPizzaIn(idsPizza)).thenReturn(List.of());
+
+        //When
+
+        DetalhamentoPedido novoPedido = pedidoService.criarNovoPedido(idsBebida, idsHamburguer, idsPizza);
+
+        //Then
+
+        assertThat(novoPedido.pizza()).isEmpty();
+        assertThat(novoPedido.bebida().get(0).getNome()).isEqualTo("Sprite");
+        assertThat(novoPedido.bebida().get(0).getPreco()).isEqualTo(new BigDecimal(45));
+        assertThat(novoPedido.precoTotal()).isEqualTo(new BigDecimal(90));
+    }
+
+    @Test
+    @DisplayName("Given Bebida List and Pizza List When Criar Novo Pedido Then Return Saved Pedido With Preco Total")
+    void testGiven_BebidaListAndPizzaList_When_CriarNovoPedido_Then_ReturnSavedPedidoWithPrecoTotal() {
+
+        //Given
+        when(bebidaRepository.findBebidaIn(idsBebida)).thenReturn(List.of(bebida));
+        when(pizzaRepository.findPizzaIn(idsPizza)).thenReturn(List.of(pizza));
+        when(hamburguerRepository.findHamburguerIn(idsHamburguer)).thenReturn(List.of());
+
+        //When
+
+        DetalhamentoPedido novoPedido = pedidoService.criarNovoPedido(idsBebida, idsHamburguer, idsPizza);
+
+        //Then
+
+        assertNotNull(novoPedido);
+        assertThat(novoPedido.hamburguer()).isEmpty();
+        assertThat(novoPedido.precoTotal()).isEqualTo(new BigDecimal(90));
+        assertThat(novoPedido.pizza().get(0).getNome()).isEqualTo(pizza.getNome());
+        assertThat(novoPedido.pizza().get(0).getPreco()).isEqualTo(pizza.getPreco());
+    }
+
+    @Test
+    @DisplayName("Given Hamburguer List When Criar Novo Pedido Then Return Saved Pedido With Preco Total")
+    void testGiven_HamburguerList_When_CriarNovoPedido_Then_ReturnSavedPedidoWithPrecoTotal() {
+
+        //Given
+        when(hamburguerRepository.findHamburguerIn(idsHamburguer)).thenReturn(List.of(hamburguer));
+        when(pizzaRepository.findPizzaIn(idsPizza)).thenReturn(List.of());
+        when(bebidaRepository.findBebidaIn(idsBebida)).thenReturn(List.of());
+
+        //When
+
+        DetalhamentoPedido novoPedido = pedidoService.criarNovoPedido(idsBebida, idsHamburguer, idsPizza);
+
+        //Then
+
+        assertNotNull(novoPedido);
+        assertThat(novoPedido.pizza()).isEmpty();
+        assertThat(novoPedido.bebida()).isEmpty();
+        assertThat(novoPedido.hamburguer().get(0).getNome()).isEqualTo(hamburguer.getNome());
+        assertThat(novoPedido.precoTotal()).isEqualTo(new BigDecimal(45));
+
+    }
+
+    @Test
     @DisplayName("Given Empty FoodLists When CreatePedido Should throw a RuntimeException")
     void testGivenEmptyFoodLists_WhenCreatePedido_ShouldThrowARuntimeException() {
         //Given
@@ -179,6 +264,5 @@ class PedidoServiceTest {
 
         assertEquals("Pedido não existente.", exception.getMessage());
     }
-
 
 }
