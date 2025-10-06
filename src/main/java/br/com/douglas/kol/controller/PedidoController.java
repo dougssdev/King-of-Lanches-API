@@ -11,6 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 @RestController
 @CrossOrigin("*")
 @RequestMapping("pedidos")
@@ -25,12 +28,13 @@ public class PedidoController {
     }
 
     @PostMapping("/enviaPedido")
-    public ResponseEntity<DetalhamentoPedido> enviaPedido(@RequestBody DadosEnvio dadosEnvio) throws RuntimeException {
+    public ResponseEntity<DetalhamentoPedido> enviaPedido(@RequestBody DadosEnvio dadosEnvio) throws RuntimeException, URISyntaxException {
         DetalhamentoPedido novoPedido = service.criarNovoPedido(dadosEnvio.idsBebida(), dadosEnvio.idsHamburguer(),
                 dadosEnvio.idsPizza());
 
         if (novoPedido != null) {
-            return ResponseEntity.ok(novoPedido);
+            URI location = new URI("/novoPedido/" + novoPedido.id_pedido());
+            return ResponseEntity.created(location).body(novoPedido);
         }
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(novoPedido);
