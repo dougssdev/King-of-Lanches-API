@@ -4,6 +4,7 @@ import br.com.douglas.kol.dto.pedido.DadosCancelamento;
 import br.com.douglas.kol.dto.pedido.DadosEnvio;
 import br.com.douglas.kol.dto.pedido.DetalhamentoPedido;
 import br.com.douglas.kol.model.pedido.Pedido;
+import br.com.douglas.kol.model.pedido.StatusDoPedido;
 import br.com.douglas.kol.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
@@ -37,13 +39,14 @@ public class PedidoController {
             return ResponseEntity.created(location).body(novoPedido);
         }
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(novoPedido);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
     }
 
     @PostMapping("/cancelaPedido")
-    public ResponseEntity<String> cancelaPedido(@RequestBody DadosCancelamento dados) {
-        service.cancelaPedido(dados.id());
-        return ResponseEntity.ok("Pedido de número: " + dados.id() + " foi cancelado com sucesso.");
+    public ResponseEntity<StatusDoPedido> cancelaPedido(@RequestBody DadosCancelamento dados) {
+        Optional<Pedido> pedido = service.cancelaPedido(dados.id());
+
+        return ResponseEntity.ok(pedido.get().getStatus());
     }
 
 }

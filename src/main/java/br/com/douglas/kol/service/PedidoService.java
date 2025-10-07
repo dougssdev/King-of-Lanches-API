@@ -67,13 +67,16 @@ public class PedidoService {
         return BigDecimal.ZERO.add(precoBebida).add(precoHamburguer).add(precoPizza);
     }
 
-    public void cancelaPedido(Long id) {
+    public Optional<Pedido> cancelaPedido(Long id) {
+
         Optional<Pedido> byId = pr.findById(id);
         if(byId.isEmpty()){
             throw new RuntimeException("Pedido não existente.");
         }
         byId.ifPresent(pedido -> pedido.setStatus(StatusDoPedido.Cancelado));
         pr.save(byId.get());
+
+        return byId;
     }
 
 
