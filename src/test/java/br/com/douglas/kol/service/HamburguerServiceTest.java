@@ -184,7 +184,7 @@ class HamburguerServiceTest {
     }
 
     @Test
-    @DisplayName("Given HamburguerId delete Hamburgue Object")
+    @DisplayName("Given HamburguerId delete Hamburguer Object")
     void testGiven_HamburguerId_delete_Hamburguer_Object() {
 
         //Given

@@ -25,10 +25,14 @@ public class HamburguerController {
 
     @PostMapping("/adiciona")
     @Transactional
-    public ResponseEntity adicionar(@RequestBody @Valid DadosCadastroHamburguer dados,
+    public ResponseEntity<?> adicionar(@RequestBody @Valid DadosCadastroHamburguer dados,
                                     UriComponentsBuilder uriBuilder){
 
         DadosDetalhamentoHamburguer hamburguer = service.salvar(dados);
+
+        if (hamburguer == null) {
+            return ResponseEntity.badRequest().body("Falha ao salvar hamburguer");
+        }
 
         var uri = uriBuilder.path("/hamburguer/{id}").buildAndExpand(hamburguer.idHamburguer()).toUri();
 
@@ -44,13 +48,13 @@ public class HamburguerController {
     }
 
     @PutMapping("/atualiza")
-    public ResponseEntity atualiza (@RequestBody @Valid DadosAtualizacaoHamburguer dados){
+    public ResponseEntity<?> atualiza(@RequestBody @Valid DadosAtualizacaoHamburguer dados) {
         DadosDetalhamentoHamburguer atualiza = service.atualizar(dados);
         return ResponseEntity.ok(atualiza);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deletar (@PathVariable Long id){
+    public ResponseEntity<?> deletar(@PathVariable Long id) {
         service.excluir(id);
         return ResponseEntity.noContent().build();
     }

@@ -23,12 +23,6 @@ public class PedidoController {
     @Autowired
     private PedidoService service;
 
-    @GetMapping("/home")
-    public String formulario(Model model){
-        model.addAttribute("pedido", new Pedido());
-        return "home";
-    }
-
     @PostMapping("/enviaPedido")
     public ResponseEntity<DetalhamentoPedido> enviaPedido(@RequestBody DadosEnvio dadosEnvio) throws RuntimeException, URISyntaxException {
         DetalhamentoPedido novoPedido = service.criarNovoPedido(dadosEnvio.idsBebida(), dadosEnvio.idsHamburguer(),
