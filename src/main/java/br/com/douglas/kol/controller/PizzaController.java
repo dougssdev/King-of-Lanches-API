@@ -25,9 +25,13 @@ public class PizzaController {
 
     @PostMapping("/adiciona")
     @Transactional
-    public ResponseEntity adiciona(@RequestBody @Valid DadosCadastroPizza dados,
+    public ResponseEntity<?> adiciona(@RequestBody @Valid DadosCadastroPizza dados,
                                    UriComponentsBuilder uriBuilder){
         DadosDetalhamentoPizza pizza = service.salvar(dados);
+
+        if (pizza == null) {
+            return ResponseEntity.badRequest().body("Falha ao salvar pizza");
+        }
 
         var uri = uriBuilder.path("/pizza/{id}").buildAndExpand(pizza.id()).toUri();
 
@@ -44,13 +48,13 @@ public class PizzaController {
     }
 
     @PutMapping("/atualizar")
-    public ResponseEntity atualiza(@RequestBody @Valid DadosAtualizacaoPizza dados){
+    public ResponseEntity<DadosDetalhamentoPizza> atualiza(@RequestBody @Valid DadosAtualizacaoPizza dados) {
     DadosDetalhamentoPizza atualiza = service.atualiza(dados);
     return ResponseEntity.ok(atualiza);
     }
 
     @DeleteMapping ("/{id}")
-    public  ResponseEntity deleta(@PathVariable Long id){
+    public ResponseEntity<?> deleta(@PathVariable Long id) {
         service.excluir(id);
         return ResponseEntity.noContent().build();
     }
